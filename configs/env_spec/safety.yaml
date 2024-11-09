@@ -1,0 +1,29 @@
+defaults:
+- _self_
+- safety_vars@vars: null # Null prevents hydra error from throwing
+
+vars:
+  version: ??? # Version of safety gym task
+  task: ??? # Safety gym task config 
+  name: SafetyPoint${.task.task_name}-${.version}
+  keys_to_action: null
+  noop: null
+  action_map: null
+  max_episode_steps: 1000
+  # >= Python 3.7 Preserves order https://github.com/omry/omegaconf/issues/982
+  env_wrappers: # Work around so users can append wrappers without overwriting 
+    '1':
+      wrapper: ${get_class:safety_gymnasium.wrappers.SafetyGymnasium2Gymnasium}
+    '2': 
+      wrapper: ${get_class:stable_baselines3.common.monitor.Monitor}
+env:
+  _convert_: 'object'
+  instance:
+    _target_: intrl.common.gym.utils.wrap_env
+   env:
+      _target_: safety_gymnasium.make
+      id: ${env_spec.vars.name}
+      render_mode: rgb
+      max_episode_steps:  ${env_spec.vars.max_episode_steps}
+      config: ${env_spec.vars.task}
+    wrappers: ${oc.dict.values:env_spec.vars.env_wrappers}

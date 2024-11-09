@@ -1,0 +1,18 @@
+vars:
+  label_key: feedback
+  load_pattern: 'traj-[0-9]*\.npz'
+logger:
+  format_strs: ['stdout']
+replayer:
+  instance:
+    _target_: intrl.common.data.replay.PyGameReplayer
+    trajectories:
+      _target_: intrl.common.imitation.utils.load_trajectories
+      paths: ${get_original_cwd:}/${output_dir.run_dir}/collect
+      pattern: ${replay.vars.load_pattern}
+      verbose: True
+      use_info: True
+      merge_extras:
+        render: [render]
+    fps: 30
+  play_kwargs: {}

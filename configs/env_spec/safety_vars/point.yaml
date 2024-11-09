@@ -1,0 +1,40 @@
+defaults:
+- task: null
+- _self_
+
+version: v0
+# TODO: Is there a better way to configure the agent?
+task: 
+  agent:
+    name: Point
+    kwargs:
+      # locations:
+      # - [2, 2]
+      keepout: 0.1
+      placements: 
+      - [2,2,3,3]
+      rot: 180
+keys_to_action:
+  i: 
+    action: 1
+    op: ${get_method:operator.add}
+    index: 0
+  k:
+    action: -1
+    op: ${get_method:operator.add}
+    index: 0
+  j: 
+    action: 1
+    op: ${get_method:operator.add}
+    index: 1
+  l: 
+    action: -1
+    op: ${get_method:operator.add}
+    index: 1
+noop: null
+action_map: 
+  _target_: numpy.array
+  object:
+  - [0 , 1, -1]
+  - [0 , 1, -1]
+

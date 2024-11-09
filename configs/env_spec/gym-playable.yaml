@@ -1,0 +1,35 @@
+defaults:
+- _self_
+- gym_vars@vars: null # Null prevents hydra error from throwing
+
+vars:
+  version: ??? # Gym task version
+  task: ??? # Name of a Gym task 
+  name: ${.task}-${.version} # Name of the environment to be loaded and used by the instance
+  keys_to_action: null # Keys corresponding to various actions in the environment
+  noop: null # No-op key for the environment
+  max_episode_steps: null
+  env_wrappers:
+    # Numbers indicate order where negative numbers appear LAST. -1 is last, -2 second to last.
+    '1': 
+      wrapper: ${get_class:stable_baselines3.common.monitor.Monitor}
+    '-3':
+      wrapper: ${get_class:intrl.common.gym.wrappers.ReplayTracker}
+    '-2':
+      wrapper: ${get_class:intrl.common.gym.wrappers.PyGameRender}
+      kwargs: 
+        fps: 30
+        enable_menu: True
+    '-1':  # Must be last wrapper to measure time correctly
+      wrapper: ${get_class:intrl.common.gym.wrappers.StateDurationTracker}
+
+env:
+  _convert_: 'object'
+  instance:
+    _target_: intrl.common.gym.utils.wrap_env
+    env:
+      _target_: intrl.common.gym.utils.make_env
+      env_name: ${env_spec.vars.name}
+      render_mode: rgb_array
+      max_episode_steps:  ${env_spec.vars.max_episode_steps}
+    wrappers: ${order_dict_numeric_values:env_spec.vars.env_wrappers}

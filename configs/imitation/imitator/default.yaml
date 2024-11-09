@@ -1,0 +1,7 @@
+defaults:
+- instance: null
+- _self_
+
+_convert_: 'object'
+instance: ???
+train_kwargs: Null # Kwargs to be passed to the passed algo's train() method.

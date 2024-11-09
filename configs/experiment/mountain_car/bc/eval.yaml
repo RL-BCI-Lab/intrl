@@ -1,0 +1,27 @@
+# @package _global_
+# @package _global_
+defaults:
+- override /env_spec: gym
+- override /env_spec/gym_vars@env_spec.vars: mountain-car
+- override /evaluation: rollout
+- _self_
+
+output_dir:
+  pipeline_group: imitation
+
+env_spec:
+  vars:
+    env_wrappers:
+       '2': 
+          wrapper: ${get_class:gymnasium.wrappers.RecordVideo}
+          kwargs:
+            video_folder: videos
+            # episode_trigger: "${eval:'lambda x: x < ${evaluation.evaluator.func.sample_until.min_episodes}'}"
+            video_length: 0
+
+evaluation:
+  evaluator:
+    func:
+      policy:
+        _target_: intrl.algorithms.imitation.bc.bcensemble.BCEnsemblePolicy.load
+        path: ${evaluation.vars.load_path}

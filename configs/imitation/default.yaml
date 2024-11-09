@@ -1,0 +1,19 @@
+defaults:
+- _self_
+- imitator: null
+
+vars:
+  # Custom name for the imitator for logging and saving purposes. It will also help
+  # determine the save directory structure. If an empty string is given, no additional
+  # directory will be created to further group the experiment by algorithm name.
+  # name: ${hydra: imitation/imitator/instance}
+  name: ${hydra:runtime.choices.imitation/imitator/instance}
+  # Path to saving imitation policy 
+  save_path: policy/policy.pt
+  # Enables/disables the use of weights & biases 
+  use_wandb: True
+logger:
+  _target_: intrl.common.logger.spawn_child
+  folder: imitator
+  format_strs: ["csv", "json", "log", "tensorboard", "wandb"]
+imitator: ???

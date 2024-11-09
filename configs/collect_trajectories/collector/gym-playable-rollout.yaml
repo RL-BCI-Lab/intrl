@@ -1,0 +1,14 @@
+func:
+  _target_: intrl.algorithms.playable.rollout.PlayableRolloutCollector
+  exclude_infos: False
+  unwrap: False
+  env: ${env_spec.env.instance}
+  sample_until: 
+    _target_: imitation.data.rollout.make_sample_until
+    min_episodes: 1
+  policy: 
+    _target_: intrl.algorithms.playable.PyGamePlayablePolicy
+    env: ${env_spec.env.instance}
+    keys_to_action: ${env_spec.vars.keys_to_action}
+    noop: ${env_spec.vars.noop}
+

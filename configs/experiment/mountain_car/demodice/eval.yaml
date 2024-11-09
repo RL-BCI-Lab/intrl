@@ -1,0 +1,31 @@
+# @package _global_
+defaults:
+- override /env_spec: gym
+- override /env_spec/gym_vars@env_spec.vars: mountain-car
+- override /evaluation: record-eval
+- _self_
+
+vars:
+  set_seed:
+    _target_: intrl.common.utils.set_torch_random_seed
+    seed: Null
+    cuda_deterministic: False
+  set_memory_growth:
+    _target_: intrl.common.utils.set_memory_growth
+
+output_dir:
+  pipeline_group: imitation
+
+evaluation:
+  evaluator:
+    func:
+      model:
+        _target_: intrl.algorithms.imitation.dice.demodice.DemoDICEPolicy.load
+        path: ${evaluation.vars.load_path}
+      n_eval_episodes: 10
+      callback: 
+        _partial_: True
+        _target_: intrl.common.sb3.evaluation.StartingPolicyCost
+        action: 0
+        steps: 10
+        threshold: 1.0

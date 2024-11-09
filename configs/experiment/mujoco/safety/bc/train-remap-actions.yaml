@@ -1,0 +1,20 @@
+# @package _global_
+defaults:
+- override /env_spec: safety
+- override /env_spec/safety_vars@env_spec.vars: point
+- override /env_spec/safety_vars/task@env_spec.vars.task: avoid-area
+- override /imitation/imitator/instance/demonstrations: remap-actions
+- _self_
+
+imitation:
+  imitator:
+    train_kwargs:
+      n_epochs: 500
+
+env_spec:
+  vars:
+    env_wrappers:
+      remap_actions:
+         wrapper: ${get_class:intrl.common.gym.wrappers.RemapActionSpace}
+         kwargs:
+          action_map: ${env_spec.vars.action_map}

@@ -1,0 +1,28 @@
+expert:
+  _target_: imitation.data.rollout.flatten_trajectories
+  trajectories: 
+    _target_: intrl.common.data.storage.load_trajectories
+    paths: ${oc.select:imitation.vars.expert_paths,???}
+    pattern: ${oc.select:imitation.vars.expert_file_pattern,???}
+    verbose: True
+    use_infos: False
+    set_fields: Null
+    choose_func:
+      _target_: intrl.common.utils.random_choice
+      _partial_: True
+      replace: False
+      size: ${oc.select:imitation.vars.expert_size,???}
+imperfect:
+  _target_: imitation.data.rollout.flatten_trajectories
+  trajectories: 
+    _target_: intrl.common.data.storage.load_trajectories
+    paths: ${oc.select:imitation.vars.imperfect_paths,???}
+    pattern: ${oc.select:imitation.vars.imperfect_file_pattern,???}
+    verbose: True
+    use_infos: False
+    set_fields: Null
+    choose_func:
+      _target_: intrl.common.utils.random_choice
+      _partial_: True
+      replace: False
+      size: ${oc.select:imitation.vars.imperfect_size,???}

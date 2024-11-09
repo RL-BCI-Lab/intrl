@@ -1,0 +1,46 @@
+# REQUIRED
+######################
+# root_dir, pipeline_group, pipeline_stage
+
+# Details
+######################
+# Save Path is generated as follows: 
+# root_dir/exp_group/env_name/pipeline_group/algo_name/data_name/run_id/pipeline_stage/
+# Each name can be edited to add additional sub-directories (e.g., algo_name: 'name/policy')
+root_dir: ???
+exp_group: ''
+env_name: ${env_spec.vars.name}
+pipeline_group: ???
+pipeline_stage: ???
+algo_name: ''
+data_name: ''
+job_name: ${join:${.pipeline_group},${.env_name},${.algo_name},${.data_name}}
+job_dir: ${join:${.root_dir},${.exp_group},${.job_name}}
+
+id_prefix: rid
+run_id: ${.id_prefix}${get_run_id:${.job_dir},${.id_prefix}}
+run_dir: ${.job_dir}/${.run_id}
+
+pipeline_stage_dir: ${.run_dir}/${.pipeline_stage}
+
+hydra_run_dir: ${.pipeline_stage_dir}
+
+# Build sweep directory which should build same path as hydra_run_dir but requires two parts
+hydra_sweep_dir: ${.root_dir}/${.exp_group}
+hydra_sweep_subdir: ${.job_name}/${.run_id}/${.pipeline_stage}
+
+# Name of hyrda config directory to save Hydra configs within .hydra
+hydra_config_root: .hydra
+hydra_config_subdir: ${.hydra_config_root}
+
+# Logging sub-directory structure
+log_root_dir: logs
+log_dir: ${.log_root_dir}
+# BUG: Sweeping over the same exact directory will not generate new log ids
+# Building log as a partial function can get around this issue when using HydraLoggerInit callback
+# log_id: 
+#   _target_: intrl.common.gym.wrappers.get_run_id
+#   _partial_: True
+#   path: ${..log_dir}
+hydra_log_dir: 
+- ${..log_dir}

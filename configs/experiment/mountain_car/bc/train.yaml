@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+- override /env_spec: gym
+- override /env_spec/gym_vars@env_spec.vars: mountain-car
+- override /imitation/imitator: ???
+- _self_

@@ -1,0 +1,15 @@
+# Hydra config options - DO NOT OVERWRITE!
+output_subdir: ${output_dir.hydra_config_subdir}
+run:  
+  dir: ${output_dir.hydra_run_dir}
+job:
+  chdir: True
+  name: ${output_dir.job_name}
+sweep:
+  dir: ${output_dir.hydra_sweep_dir}
+  subdir: ${output_dir.hydra_sweep_subdir}
+callbacks:
+  logger:
+    _target_: intrl.common.logger.HydraLoggerInit
+    folder: ${output_dir.hydra_log_dir}
+    format_strs: ["stdout", "log"]

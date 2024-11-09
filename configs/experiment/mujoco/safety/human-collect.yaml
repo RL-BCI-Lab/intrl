@@ -1,0 +1,23 @@
+# @package _global_
+defaults:
+- override /env_spec: safety-playable
+- override /env_spec/safety_vars@env_spec.vars: point
+- override /env_spec/safety_vars/task@env_spec.vars.task: avoid-area
+- override /collect_trajectories/collector: safety-playable-rollout
+- _self_
+
+output_dir:
+  algo_name: human
+
+collect_trajectories:
+  vars:
+    save: True
+  collector:
+    func:
+      sample_until:
+        min_episodes: 10
+  save:
+    kwargs:
+      extract_info_keys:
+        cost_hazards: cost_hazards
+        cost_sum: cost_sum

@@ -1,0 +1,20 @@
+defaults:
+- collector: null
+
+vars:
+logger: 
+  _target_: intrl.common.logger.spawn_child
+  folder: collector
+  format_strs: ["stdout", "csv", "log", "json"]
+collector:
+  func: ???
+save:
+  # Any function that has the argument 'trajectories'
+  func: ${get_method:intrl.common.data.storage.H5Storage.save}
+  # Pass additional kwargs excluding trajectories.
+  kwargs: 
+    # Kwarg for the H5Storage.save() function. Pass the names of
+    # keys you know will be inside info to extract them and save them at the top level.
+    extract_info_keys: 
+      TimeLimit.truncated: truncated
+    save_separately: True

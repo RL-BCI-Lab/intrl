@@ -1,0 +1,77 @@
+# Required Params
+######################
+# output_dir: pipeline_group, algo_name
+# env_spec: vars.name, env.instance
+# collect_trajectories: collector.func
+# Be sure to check specified collect_trajectories and env_spec configs for additional required params (e.g., ???) 
+
+# Build Order
+######################
+# 1) output_dir
+# 2) vars 
+# 3) env_spec
+# 4) expert (REMOVED)
+# 5) collect_trajectories
+
+defaults:
+- output_dir: default
+- hydra: default
+- _self_
+- env_spec: ???
+# - expert: Null
+- collect_trajectories: default
+- override hydra/hydra_logging: disabled  
+- override hydra/job_logging: disabled 
+
+# (Optional) Top (i.e., global) level variables that are instantiated first
+# Set anything you like to reference later here.
+vars: 
+
+# # (Required) Defines Gym Env object or VecEnv
+# env_spec:
+#   vars:
+#     name: ???
+#     keys_to_action: Null
+#     noop: Null
+#   env:
+#     instance: ???
+
+# TODO: Decouple train expert into own pipeline.
+# (Optional) Defines an agent policy to be trained which can then be used by collect_trajectories
+# to collect "expert" demonstrations
+# train_expert:
+#   vars:
+#     skip: True # Skip this stage (will still be instantiated).
+#     name: ''
+#   logger: Null
+#   agent:
+#     instance: Null
+#     learn_kwargs: {}
+
+# (Required) Determines if rollout collector should collect trajectories. Can be used to
+# collect human or previously trained agent expert trajectories. Not needed if trajectories
+# will already be loaded during the imitation learning stage.
+# collect_trajectories:
+#   vars:
+#     save: True # Determines if trajectories are saved to disk
+#     filename: Null # Custom name for saved file, if None will be automatically generated
+#     # Kwarg for the intrl.common.imitation_util.numpy_save() function. Pass the names of
+#     # keys you know will be inside info to save them in their own file. Otherwise, they
+#     # will be saved inside the info.npy file (can be harder to directly access).
+#     extract_info_keys: Null
+#   logger: 
+#     _target_: intrl.common.logger.spawn_child
+#     folder: collector
+#     format_strs: ["stdout", "csv", "log", "json"]
+#   collector:
+#     func: ???
+
+# No access to during instantiations 
+output_dir:
+  root_dir: demos
+  pipeline_group: ''
+  pipeline_stage: collect
+  algo_name: ''
+
+  
+ 

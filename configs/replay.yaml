@@ -1,0 +1,37 @@
+# Required Params
+######################
+# replay: replayer.instance 
+# Be sure to check specified replay config for additional required params (e.g., ???) 
+
+# Build Order
+######################
+# 1) vars 
+# 2) replay
+
+defaults:
+- output_dir: default
+- hydra: default
+- _self_
+- replay: null
+- override hydra/hydra_logging: disabled  
+- override hydra/job_logging: disabled 
+
+# (Optional) Top (i.e., global) level variables that are instantiated first
+# Set anything you like to reference later here.
+vars:
+
+replay:
+  vars: {}
+  logger: 
+    _target_: intrl.common.logger.spawn_child
+    folder: replayer
+    format_strs: ["stdout", "log"]
+  replayer:
+    instance: ???
+    play_kwargs: {}
+  
+output_dir:
+  root_dir: demos
+  pipeline_group: ''
+  pipeline_stage: ''
+  hydra_config_subdir: null

@@ -1,0 +1,24 @@
+defaults:
+- _self_
+- instance/demonstrations: rand-expert-imperfect # Demonstrations loading type
+
+# needs to convert all OmegaConf objects into dict/lists
+_convert_: 'object' 
+
+instance:
+  _target_: intrl.algorithms.imitation.dice.demodice.DemoDICE
+  custom_logger: ${imitation.logger}
+  observation_space: ${getattr:${env_spec.env.instance},observation_space}
+  action_space: ${getattr:${env_spec.env.instance},action_space}
+  demonstrations:
+    expert: ???
+    imperfect: ????
+  # batch_size: 20
+train_kwargs:
+  n_batches: 1000
+  log_interval: 100
+  log_rollouts_venv: 
+    _target_: intrl.common.gym.utils.vectorize_env
+    env: ${env_spec.env.instance}
+    count: 1
+  log_rollouts_n_episodes: 5

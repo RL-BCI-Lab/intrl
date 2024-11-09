@@ -1,0 +1,31 @@
+vars:
+  # Name of the feedback key which will be stored with the collected data
+  label_key: ${output_dir.pipeline_stage} 
+  # Paths to be loaded, do this here so trajectories and save_paths match
+  load_paths:
+    _target_: intrl.common.utils.search_directories
+     # Path to the collect directory for th experiment being labeled
+    paths: ${get_original_cwd:}/${output_dir.run_dir}/collect
+     # File pattern for loading the data file(s)
+    pattern: 'traj-.*\.h5'
+replayer:
+  instance:
+    _target_: intrl.common.data.replay.LabelDemonstrations
+    labeler:
+      _target_: intrl.common.data.replay.PyGameLabeler
+    trajectories:
+      _target_: intrl.common.data.storage.load_trajectories
+      paths: ${replay.vars.load_paths}
+      verbose: True
+      use_infos: True
+      keep_info_keys: [render]
+    label_key: ${replay.vars.label_key}
+    label_color_map:
+      -1: [255, 0, 0]
+      1: [0, 255, 0]
+    fps: 30
+  play_kwargs:
+    save_paths: ${replay.vars.load_paths}
+    extract_info_keys:
+    - render
+    - ${replay.vars.label_key}

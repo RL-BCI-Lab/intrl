@@ -1,0 +1,4 @@
+# @package _global_
+defaults:
+- override /replay: pygame-labeler
+- _self_

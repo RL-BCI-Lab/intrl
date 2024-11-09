@@ -1,0 +1,14 @@
+  _target_: intrl.common.data.rollout.flatten_trajectories_with_feedback
+  trajectories:
+    _target_: intrl.common.data.credit_assignment.feedback_credit
+    trajectories:
+      _target_: intrl.common.data.storage.load_trajectories
+      paths: ${oc.select:imitation.vars.demo_paths,???}
+      pattern: ${oc.select:imitation.vars.demo_file_pattern,???}
+      verbose: True
+      use_infos: True
+      traj_class: ${get_class:intrl.common.imitation.utils.TrajectoryWithFeedback}
+      set_fields: Null
+    map_length: 0.3
+    time_key: time
+    mapping_func: ${get_method:intrl.common.data.credit_assignment.soft_map_to_state_time}

@@ -1,0 +1,8 @@
+_target_: imitation.data.rollout.flatten_trajectories
+trajectories: 
+  _target_: intrl.common.data.storage.load_trajectories
+  paths: ${oc.select:imitation.vars.demo_paths,???}
+  pattern: ${oc.select:imitation.vars.demo_file_pattern,???}
+  verbose: True
+  use_infos: False
+  set_fields: Null

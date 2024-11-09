@@ -1,0 +1,24 @@
+defaults:
+- _self_
+- gym_vars@vars: null # Null prevents hydra error from throwing
+
+vars:
+  version: ??? # Gym task version
+  task: ??? # Name of a Gym task 
+  name: ${.task}-${.version} # Name of the environment to be loaded and used by the instance
+  keys_to_action: Null # Keys corresponding to various actions in the environment
+  noop: Null # No-op key for the environment
+  max_episode_steps: null
+  env_wrappers:
+    '1': 
+      wrapper: ${get_class:stable_baselines3.common.monitor.Monitor}
+env:
+  _convert_: 'object'
+  instance:
+    _target_: intrl.common.gym.utils.wrap_env
+    env:
+      _target_: intrl.common.gym.utils.make_env
+      env_name: ${env_spec.vars.name}
+      render_mode: rgb_array
+      max_episode_steps:  ${env_spec.vars.max_episode_steps}
+    wrappers: ${oc.dict.values:env_spec.vars.env_wrappers}

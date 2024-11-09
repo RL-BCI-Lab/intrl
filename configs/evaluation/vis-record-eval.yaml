@@ -1,0 +1,26 @@
+evaluator:
+  func:
+    _target_: intrl.common.sb3.evaluation.evaluate_policy
+    _partial_: True
+    model: ???
+    env:
+      _target_: intrl.common.gym.utils.wrap_env
+      env:
+        _target_:  intrl.common.gym.utils.make_env
+        env_name: ${env_spec.vars.name}
+        render_mode: rgb_array
+        max_episode_steps: ${rgetattr:${env_spec.env.instance},spec.max_episode_steps}
+      wrappers:
+      - wrapper: ${get_class:stable_baselines3.common.monitor.Monitor}
+      - wrapper: ${get_class:intrl.common.gym.wrappers.PyGameRender}
+        kwargs:
+          fps: 60
+      - wrapper: ${get_class:gymnasium.wrappers.RecordVideo}
+        kwargs:
+          video_folder: videos
+          episode_trigger: "${eval:'lambda x: x < ${evaluation.evaluator.func.n_eval_episodes}'}"
+          video_length: 0
+    logger: ${evaluation.logger}
+    n_eval_episodes: 5
+    render: False
+    env_seed: Null # Same seed chosen if global seed is set

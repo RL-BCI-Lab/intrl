@@ -1,0 +1,39 @@
+# Required Params
+######################
+# output_dir: pipeline_group, algo_name
+# env_spec: vars.name, env.instance
+# imitation: imitator.instance
+# Be sure to check specified imitation and env_spec configs for additional required params (e.g., ???) 
+
+# Build Order
+######################
+# 1) output_dir
+# 2) vars 
+# 3) env_spec
+# 4) imitation
+
+defaults:
+  - output_dir: default
+  - hydra: default
+  - _self_
+  - env_spec: ???
+  - imitation: default
+  - override hydra/hydra_logging: disabled  
+  - override hydra/job_logging: disabled 
+
+# (Optional) Top (i.e., global) level variables that are instantiated first
+# Set anything you like to reference later here.
+vars:
+  _convert_: 'object'
+  demo_dir: ${hydra:runtime.cwd}/demos
+  set_seed: 
+    _target_: intrl.common.utils.set_torch_random_seed
+    seed: Null
+    cuda_deterministic: False
+
+output_dir:
+  root_dir: exps
+  pipeline_group: imitation
+  pipeline_stage: train
+  algo_name: ${imitation.vars.name}
+ 

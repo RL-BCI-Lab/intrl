@@ -1,0 +1,10 @@
+# @package _global_
+defaults:
+- override /env_spec: gym
+- override /env_spec/gym_vars@env_spec.vars: mountain-car
+- override /imitation/imitator: ???
+- _self_
+
+vars:
+  set_memory_growth:
+    _target_: intrl.common.utils.set_memory_growth

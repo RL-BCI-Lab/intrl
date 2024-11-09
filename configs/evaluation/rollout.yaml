@@ -1,0 +1,11 @@
+evaluator:
+  func:
+    _target_: intrl.common.data.rollout.RolloutCollector
+    policy: ???
+    env: ${env_spec.env.instance}
+    sample_until: 
+      _target_: imitation.data.rollout.make_sample_until
+      min_episodes: 10
+    env_seed: Null
+    exclude_infos: False
+    unwrap: False

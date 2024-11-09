@@ -1,0 +1,23 @@
+# @package _global_
+defaults:
+- override /env_spec: safety
+- override /env_spec/safety_vars@env_spec.vars: point
+- override /env_spec/safety_vars/task@env_spec.vars.task: avoid-area
+- override /evaluation: record-eval
+- _self_
+
+output_dir:
+  pipeline_group: imitation
+  
+env_spec:
+  env:
+    instance:
+      env:
+        camera_name: track
+evaluation:
+  evaluator:
+    func:
+      model:
+        _target_: intrl.algorithms.imitation.bc.bcensemble.BCEnsemblePolicy.load
+        path: ${evaluation.vars.load_path}
+      n_eval_episodes: 10

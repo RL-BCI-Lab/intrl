@@ -1,0 +1,29 @@
+# @package _global_
+defaults:
+- override /env_spec: gym-playable
+- override /env_spec/gym_vars@env_spec.vars: mountain-car
+- override /collect_trajectories/collector: gym-playable-rollout
+- _self_
+
+output_dir:
+  algo_name: human
+
+env_spec:
+  vars:
+    env_wrappers:
+      '2': 
+        wrapper: ${get_class:intrl.common.gym.wrappers.StatePositionChangeCost}
+        kwargs:
+          obs_dim: 0
+          steps: 16
+          threshold: 0.7
+          noop: ${env_spec.vars.noop}
+          decreasing: True
+
+collect_trajectories:
+  vars:
+    save: True
+  collector:
+    func:
+      sample_until:
+        min_episodes: 10

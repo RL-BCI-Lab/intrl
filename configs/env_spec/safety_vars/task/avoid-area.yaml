@@ -1,0 +1,25 @@
+task_name: GoalBase
+num_steps: ${env_spec.vars.max_episode_steps}
+mechanism_conf.continue_goal: True
+mechanism_conf.randomize_layout: True
+placements_conf.extents: [-3, -3, 3, 3]
+Goal: 
+  keepout: 0.305
+  size: 0.3
+  locations:
+  - [-2.5,-2.5]
+  is_lidar_observed: True
+Hazards:
+  num: 3
+  size: 1
+  locations: 
+  - [0, 0]
+  - [-2, 2]
+  - [2, -2]
+  is_lidar_observed: True
+  is_constrained: True
+BoundarySigwalls: 
+  num: 4
+  locate_factor: 3.5
+  keepout: 0.2
+  is_lidar_observed: False

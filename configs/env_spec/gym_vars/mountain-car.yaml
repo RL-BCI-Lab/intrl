@@ -1,0 +1,8 @@
+version: v0
+task: MountainCar
+keys_to_action:
+  a: 0  # Left
+  ' ': 1  # Stop
+  d: 2  # Right
+noop: 1
+

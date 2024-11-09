@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+- override /hydra: no-logger
+- override /replay: pygame-replayer
+- _self_
+

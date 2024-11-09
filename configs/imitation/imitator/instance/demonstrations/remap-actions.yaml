@@ -1,0 +1,10 @@
+_target_: imitation.data.rollout.flatten_trajectories
+trajectories:
+  _target_: intrl.common.imitation.utils.remap_trajectory_actions
+  action_map: ${env_spec.vars.action_map}
+  trajectories: 
+    _target_: intrl.common.imitation.utils.load_trajectories
+    paths: ???
+    pattern: ${imitation.vars.demo_file_pattern} 
+    verbose: True
+    use_info: False

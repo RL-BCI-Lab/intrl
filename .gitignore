@@ -1,0 +1,38 @@
+# To update run scripts cd into run/ and run/slurm and run the follwoing:
+# Update
+# git update-index --no-assume-unchanged $(git ls-files | tr '\n' ' ')
+# To prevent changes
+# git update-index --assume-unchanged $(git ls-files | tr '\n' ' ')
+
+# Remove all
+*
+intrl/algorithms/imitation/bc/bcshape*
+# Ignore file types or dirs
+__pycache__
+*ipynb_checkpoints
+*logs
+
+# Track ONLY the following
+!.gitignore
+!README.md
+!setup.py
+!main.py
+!intrl/
+!intrl/**
+!run
+!run/**
+!explore
+!explore/notebooks
+!explore/notebooks/*.ipynb
+!explore/tests
+!explore/tests/*
+!docker/
+!explore/
+!configs/
+!configs/**
+__pycache__
+
+intrl/algorithms/sb3
+intrl/algorithms/imitation/bc/bcshape*
+run/bcshape
+configs/imitation/imitator/bcs-*

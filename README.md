@@ -21,26 +21,6 @@ Once created, the `intrl` module needs to be installed by running the following 
 pip install -e .
 ```
 
-## Docker Environment (WIP)
-The GPU Docker environment has two requirements: 1) you will need to use a version of Linux where [nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) is supported or WSL 2.0 with Windows 11 can also work; 2) you need to have a GPU and the latest Nvidia drivers installed on your host PC. If you meet these requirements then you can use the Docker environment with a GPU provide below.
-
-*For the following commands, we will assume you are using Linux or WSL 2.0*
-
-### Running Images 
-There are pre-defined commands for creating the IntRL docker container. To access these commands simply source the `env.sh` script within  `docker/` directory.  
-
-```
-source docker/env.sh
-```
-Once done, you will have access to the alias commands `intrl-gpu-make` which will create a docker container that has access to any local GPUs.
-
-### Attaching
-After running the `intrl-gpu-make` command you will need to attach to your container. You can do so by doing a `docker attach` followed by the name of the container `intrl-<version>`. The `<version>`is determined by the tag of the docker image. For now, the default is `torch`. An example command for attaching to the GPU container with `torch` version is given below. *Note, if you are not running multiple containers at once a tab complete will usually automatically find the name of the container.*
-
-```
-docker attach intrl-torch
-```
-
 # Quickstart
  To run the code, Hydra is used to orchestrate the building of configs. Once a config is built, it is passed to particular pipeline where its contents are used by the pipeline to run the code. Each pipeline has one or more corresponding Hydra templates located in the root of the `config/` directory. The current pipelines are listed below.
 
